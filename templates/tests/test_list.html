@@ -1,58 +1,32 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Test task</title>
-    <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href= {% static "css/normalize.css" %}>
-    <link rel="stylesheet" href={% static "css/fonts.css" %}>
-    <link rel="stylesheet" href={% static "css/style.css" %}>
-
-</head>
-
-<body>
-    <header class="header">
-        <div class="header__top">
-            <div class="container">
-                <a class="header__logo" href="/">Test Task</a>
-                <a class="header__btn" href="{{ test_list.first.url }}">Тестирование</a>
-            </div>
-        </div>
-        <div class="header__content">
-            <div class="container">
-                <div class="header__title">
-                        <h1>Приветствуем вас на нашем сайте!</h1>
-                </div>
-                <div class="header__body">
-                    <h4>
-                        Чтобы пройти тестирование, щелкните по кнопке "Тестирование" в правом верхнем углу.
-                    </h4>
-                </div>
-            </div>
-        </div>
-    </header>
+{% extends 'base.html' %}
+{% block title %} Tests {% endblock title %}
+{% block content %}
     <main class="main">
         <div class="main__content">
             <div class="container">
+                <div class="container__auth-message">
+                    {% if user.is_authenticated %}
+                        <p>Hi, {{ user.username }}</p>
+                        <p><a href="{% url 'logout' %}">Log out</a></p>
+                    {% else %}
+                        <p>You are not logged in.</p>
+                        <a href="{% url 'login' %}">Log In</a>
+                        <a href="{% url 'signup' %}">Sign Up</a>
+                    {% endif %}
+                </div>
                 <div class="main__title">
                     Список тестов:
                 </div>
                 <div class="main__body">
                     <div class="main__body_test-container">
                         {% for test in test_list %}
-                        <a class="main__btn" href="{{ test.get_absolute_url }}">
-                        {{ test.title }}
-                        </a>
-                    {% endfor %}
+                            <a class="main__btn" href="{{ test.get_absolute_url }}">
+                                {{ test.title }}
+                            </a>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
     </main>
-</body>
-
-</html>
+{% endblock content %}

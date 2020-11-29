@@ -5,16 +5,17 @@ from django.db import models
 from django.urls import reverse
 
 
+ANSWER_CHOICES = [
+    (1, "First"),
+    (2, "Second"),
+]
+
+
 class Question(models.Model):
     title = models.CharField("Заголовок", max_length=100)
-    question_text_1 = models.TextField("Вариант ответа 1")
-    question_text_2 = models.TextField("Вариант ответа 2")
-
-    class Answers(models.TextChoices):
-        FIRST = '1'
-        SECOND = '2'
-
-    answer = models.CharField("Ответ", choices=Answers.choices, max_length=1,  editable=False)
+    question_variant_1 = models.TextField("Вариант ответа 1")
+    question_variant_2 = models.TextField("Вариант ответа 2")
+    answer = models.CharField("Ответ", choices=ANSWER_CHOICES, max_length=1,  editable=False)
 
     def __str__(self):
         return self.title
